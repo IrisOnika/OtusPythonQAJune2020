@@ -15,8 +15,6 @@ with open('users-39204-8e2f95.json', 'r') as students:
     std = students.read()
     students_list = loads(std)
 
-
-
 i = 0
 student = []
 for stud in students_list:
@@ -48,7 +46,6 @@ for stud in students_list:
                 ]
             }])
     i += 1
-    print(i)
 
 with open('result.json', 'a') as file:
     s = dumps(student, indent=4)
