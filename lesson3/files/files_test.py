@@ -6,8 +6,6 @@ books_list: list = []
  # books = DictReader(open('books-39204-271043.csv', 'r'))
 with open('books_test.csv') as books:
     b = DictReader(books)
-
-    # Итерируемся по данным делая из них словари
     for row in b:
         books_list.append(dict(row))
 
