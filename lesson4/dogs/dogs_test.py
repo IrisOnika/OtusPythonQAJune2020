@@ -1,5 +1,3 @@
-from lesson4.conftest import open_read
-from lesson4.conftest import api_client_base
 from lesson4.dogs.breed_list_func import *
 import re
 
@@ -7,8 +5,6 @@ import re
 #     breeds_all = breeds.read()
 #     breeds_list = loads(breeds_all)
 
-
-# @pytest.mark.parametrize("input1, input2 ", [(1, 1)])
 def test_check_breeds_list():
     ap = dogs_api()
     res = ap.text_dict(path=list_all)
@@ -17,64 +13,40 @@ def test_check_breeds_list():
     breeds_list = open_read('dogs/breеd_list.json')
     assert breed_list_dict == breeds_list
 
-def test_by_breed_random():
+def test_breed_random():
     ap = dogs_api()
     res = ap.text_dict(path=random1)
     rand1 = res.get("message")
     # Проверяем, что в message одна строка в виде "https://images.dog.ceo/breeds/{название_породы}/{номер_картинки}.jpg"
-    assert re.match(r"^" + random1_result + r"\w+/\w+.jpg$", rand1)
+    assert re.match(r"^" + random1_result + r"\S+/\S+.[jpegJPEG]{3,4}$", rand1)
+
+
+@pytest.mark.parametrize("count", ['1', '11', '50', '51', '0', 's'])
+def test_breed_links_random(count):
+    ap = dogs_api()
+    res = ap.text_dict(path=random1+'/'+count)
+    links = res.get("message")
+    for link in links:
+        assert re.match(r"^" + random1_result + r"\S+/\S+.[jpegJPEG]{3,4}$", link)
+
+
+@pytest.mark.parametrize(("count", "result"), [('1', 1), ('11', 11), ('50', 50), ('51', 50), ('0', 1), ('s', 1)])
+def test_breed_links_count(count, result):
+    ap = dogs_api()
+    res = ap.text_dict(path=random1 + '/' + count)
+    links = res.get("message")
+    i = 0
+    for link in links:
+        i += 1
+    assert i == result
+
+@pytest.mark.parametrize("breed", ['setter'])
+def test_breed_links_images(breed):
+    ap = dogs_api(host1)
+    res = ap.text_dict(path='/' + breed + '/images')
+    links = res.get("message")
+    for link in links:
+        assert re.match(r"^" + random1_result + breed + r"\S+/\S+.[jpegJPEG]{3,4}$", link)
 
 
 
-
-
-
-
-
-# @pytest.mark.parametrize(["h", "r_times", "exp_resp", "allow_redir"], [(host, '2', '302', True)])
-# @pytest.Function
-# def test_redirect(host, r_times, exp_resp, allow_redir):
-# def test_redirect(host):
-
-
-
-
-
-
-
-
-url = host + 'breeds/list/all'
-# http = urllib3.PoolManager()
-#
-# resp = http.request('Get', url)
-# # print(resp.data)
-# # print(type(resp.data))
-#
-# resp_dict = json.loads(resp.data)
-# # print(resp_dict)
-# # print(type(resp_dict))
-# print(resp_dict.get('status'))
-
-
-
-# response = requests.get(url)
-
-
-# headers = response.headers
-# t = response.data
-# with open('data.json', 'w', encoding='utf-8') as fh: #открываем файл на запись
-#     fh.write(json.dumps(t, ensure_ascii=False)) #преобразовываем словарь data в unicode-строку и записываем в файл
-# with open('data.json', 'r', encoding='utf-8') as fh: #открываем файл на чтение
-#     data = json.load(fh)
-
-# print(f'Происходит: "{response}"')
-# print(headers)
-# print(type(data))
-# print(t.keys())
-
-    # print(f'Ожидается: "<Response [{exp_resp}]">')
-    # print(range(int(r_times)))
-    # print(list(range(int(r_times))))
-    #
-    # for i in list(range(int(r_times))):
-    #     assert str(response) == f'<Response [{exp_resp}]>'
