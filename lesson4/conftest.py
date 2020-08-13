@@ -1,9 +1,6 @@
 import pytest
-import requests
-import urllib3
-import json
-from json import loads, dumps
-from lesson4.dogs.api_client import APIClient
+from json import loads
+from lesson4.api_client import APIClient
 import os.path
 
 
