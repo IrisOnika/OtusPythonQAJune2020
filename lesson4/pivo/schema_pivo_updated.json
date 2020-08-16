@@ -1,0 +1,15 @@
+{
+    "id": {"type": "number"},
+    "name": {"type": "string"},
+    "brewery_type": {"type": "string"},
+    "street": {"type": "string"},
+    "city": {"type": "string"},
+    "state": {"type": "string"},
+    "postal_code": {"type": "string"},
+    "country": {"type": "string"},
+    "longitude": {"type": "string","None"},
+    "latitude": {"type": "string"},
+    "phone": {"type": "string"},
+    "website_url": {"type": "string"},
+    "updated_at": {"type": "string"}
+  }
