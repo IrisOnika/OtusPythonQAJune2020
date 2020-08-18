@@ -41,17 +41,22 @@ def test_check_breeds_per_page(per_page, count):
         res_count += 1
     assert res_count == count
 
-
-# def test_check_breeds_per_page():
-#     ap = brewer_api()
-#     res = ap.text_dict(path=f'{search_query}California')
-#     print(res)
-#     res_count = 0
-#     for item in res:
-#         state = item.get("state")
-#         res_count += 1
-#         assert state == 'California'
-#     # assert res_count == count
+@pytest.mark.parametrize('search', ['California', 'Russia', 'khjkhjkh'])
+def test_check_breeds_per_page(search):
+    ap = brewer_api()
+    res = ap.text_dict(path=f'{search_query}{search}')
+    print(f'res={res}')
+    for item in res:
+        print(item.get("id"))
+        count=0
+        for i in list(item.keys()):
+            if str(item.get(i)).find(search) > -1:
+                print(i)
+                count += 1
+        if res != []:
+            assert count > 0
+        else:
+            assert count == 0
 
 
 
