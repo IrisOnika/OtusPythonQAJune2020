@@ -21,11 +21,15 @@ class APIClient:
         print("GET request to {}".format(url))
         return requests.get(url=url, params=params)
 
+# не будет работать, потому что код мы определяем не у класса, а у объекта класса
     def status(self, path="/", meth="get"):
+        url = self.base_address + path
         if meth == "get":
-            return self.get(path).status_code
+            #'фиксируем' объект
+            res = requests.get(url)
+            return str(res.status_code)
 
-
+# метод возвращает текст страницы, полученной при отправке запроса по заданному url'у
     def text_dict(self, path="/"):
         url = self.base_address + path
         print(url)

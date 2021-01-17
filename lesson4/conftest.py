@@ -4,7 +4,7 @@ from lesson4.api_client import APIClient
 import os.path
 
 
-@pytest.fixture(scope="session")
+#@pytest.fixture(scope="session")
 def api_client(request):
     base_url = request.config.getoption("--url")
     return APIClient(base_address=base_url)
@@ -58,6 +58,9 @@ def pytest_addoption(parser):
 def url(request):
     return request.config.getoption("--url")
 
+@pytest.fixture
+def code(request):
+    return request.config.getoption("--status_code")
 
 
 
